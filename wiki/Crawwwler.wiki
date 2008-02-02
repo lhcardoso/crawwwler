@@ -27,6 +27,8 @@ Please feel free to let us know any ideas you have or caveats of which you are a
 
 == Warning ==
 
+Always obey ROBOTS.TXT!!!
+
 This is obviously a *very dangerous* toy to let loose on the WWW.  Please be extremely careful if you use this code.  Test it on a site hosted on your local machine or server that you own.  Its not currently meant to crawl anything other than your test site, but the testing thus far has been limited.  So be careful!!!
 
 == Get Involved == 
