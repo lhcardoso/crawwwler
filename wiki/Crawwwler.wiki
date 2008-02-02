@@ -23,7 +23,7 @@ Ah, well I mean come on.  There's so much that needs to be done.  First in line 
 
 == Ideas ==
 
-Please feel free to let us know any ideas you have or caveats of which you are aware.  Email to: .. to come.
+Please feel free to let us know any ideas you have or caveats of which you are aware.  Email to: crawwwler@mynameisfury.co.uk
 
 == Warning ==
 
@@ -31,4 +31,4 @@ This is obviously a *very dangerous* toy to let loose on the WWW.  Please be ext
 
 == Get Involved == 
 
-Of course, and with pleasure! If you're interested, take a look at the code in its current state and send an email to ...  to come.
+Of course, and with pleasure! If you're interested, take a look at the code in its current state and send an email to: crawwwler@mynameisfury.co.uk
