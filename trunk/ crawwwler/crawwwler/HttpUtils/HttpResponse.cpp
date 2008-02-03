@@ -4,8 +4,7 @@
 // ### Temp include for testing
 #include <fstream.h>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Static Functions

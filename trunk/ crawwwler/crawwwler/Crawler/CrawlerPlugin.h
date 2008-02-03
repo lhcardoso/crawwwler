@@ -1,3 +1,6 @@
+// CrawlerPlugin.h
+// Base class for all plugins
+
 #ifndef CRAWLERPLUGIN_H_
 #define CRAWLERPLUGIN_H_
 
@@ -5,7 +8,7 @@
 #include "../HttpUtils/HttpConnector.h"
 #include "../ServerInfo/ServerInfo.h"
 
-namespace GoldDigger
+namespace Crawwwler
 {
 
 class CRemoteServer;

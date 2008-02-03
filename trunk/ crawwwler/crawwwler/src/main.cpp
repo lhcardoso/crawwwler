@@ -10,11 +10,10 @@
 #include "../Utils/LogFile.h"
 
 #include <fstream.h>
-//#include <ios>
 
 //namespace GoldDigger {
 	
-using namespace GoldDigger;
+using namespace Crawwwler;
 
 int main() {
 	
@@ -51,7 +50,7 @@ int main() {
 		
 	}
 	
-	
+	// Some dummy output to make us feel better
 	
 	std::cout << "Crawl Successful" << std::endl;
 	

@@ -1,7 +1,6 @@
 #include "HttpHeader.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 	
 ///////////////////////////////////////////////////////////////
 // Constructors

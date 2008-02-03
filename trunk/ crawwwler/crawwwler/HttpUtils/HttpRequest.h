@@ -6,8 +6,7 @@
 #include "HttpHeader.h"
 #include "RemoteServer.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 	enum tRequestType {
 		REQUEST_GET = 1,

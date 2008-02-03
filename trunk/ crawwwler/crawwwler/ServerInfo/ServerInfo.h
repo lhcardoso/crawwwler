@@ -7,8 +7,7 @@
 #include "../HttpUtils/RemoteServer.h"
 #include "../HttpUtils/HttpResponse.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CServerInfo
 {

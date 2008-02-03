@@ -9,8 +9,7 @@
 //#include <netinet/in.h>
 //#include <netdb.h>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors

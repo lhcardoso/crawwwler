@@ -2,8 +2,8 @@
 
 #include <fstream.h>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
+	
 #define DefaultDiggerLogFile "DLog.txt"
 #define DefaultDiggerPath "/home/dave/"
 #define DefaultDiggerLogFilePath "/home/dave/DLog.txt"

@@ -1,7 +1,6 @@
 #include "Server.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 CServer::CServer() :
 m_Port(80) {

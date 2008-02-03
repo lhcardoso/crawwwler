@@ -1,7 +1,6 @@
 #include "Port.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 CCPort::CCPort(int PortNum) :
 m_PortNum(PortNum) {

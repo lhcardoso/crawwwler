@@ -7,7 +7,7 @@
 #include "../GlobalData/GlobalData.h"
 #include "../HttpUtils/HttpHeader.h"
 
-namespace GoldDigger
+namespace Crawwwler
 {
 
 ///////////////////////////////////////////////////////////////

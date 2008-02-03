@@ -5,8 +5,7 @@
 #ifndef PLUGINID_H_
 #define PLUGINID_H_
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CPluginId
 {

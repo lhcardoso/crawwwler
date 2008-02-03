@@ -1,7 +1,6 @@
 #include "Url.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
  
 // Determine whether the given string represents a single digit
 static bool IsDigit(std::string Value) {

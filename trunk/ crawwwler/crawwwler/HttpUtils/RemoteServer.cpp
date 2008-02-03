@@ -2,7 +2,7 @@
 
 #include "../RobotsTxt/RobotsTxtFile.h"
 
-namespace GoldDigger {
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors

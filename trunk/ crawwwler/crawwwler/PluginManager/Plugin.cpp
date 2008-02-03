@@ -1,7 +1,6 @@
 #include "Plugin.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 CPlugin::CPlugin() {
 }

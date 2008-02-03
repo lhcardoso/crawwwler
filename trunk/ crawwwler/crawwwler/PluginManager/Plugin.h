@@ -4,8 +4,7 @@
 #include <list>
 #include "PluginId.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CPlugin
 {

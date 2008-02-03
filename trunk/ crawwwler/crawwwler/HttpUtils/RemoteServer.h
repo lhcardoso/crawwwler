@@ -6,8 +6,7 @@
 #include <list>
 #include "Url.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 	
 class CRobotsTxtFile;
 
