@@ -4,7 +4,7 @@
 #include <fstream.h>
 #include <iostream>
 
-namespace GoldDigger {
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors

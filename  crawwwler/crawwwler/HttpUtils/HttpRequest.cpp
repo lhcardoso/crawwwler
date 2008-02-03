@@ -1,7 +1,6 @@
 #include "HttpRequest.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Static Functions

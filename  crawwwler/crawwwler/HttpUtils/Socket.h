@@ -8,8 +8,7 @@
 #include <string> 
 
 #include <netdb.h>
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 
 class CHttpRequest;

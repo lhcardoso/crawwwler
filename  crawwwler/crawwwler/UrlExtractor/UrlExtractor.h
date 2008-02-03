@@ -7,8 +7,7 @@
 #include "../PluginManager/Plugin.h"
 #include "../ServerInfo/ServerInfo.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CUrlExtractor : public CPlugin {
 public:

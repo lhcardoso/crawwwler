@@ -1,8 +1,7 @@
 #include "ServerInfo.h"
 #include <iostream>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors

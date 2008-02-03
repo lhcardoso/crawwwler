@@ -1,7 +1,6 @@
 #include "RobotsTxtFile.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 	
 CRobotsTxtFile::CRobotsTxtFile()
 {

@@ -6,7 +6,7 @@
 #ifndef HTTPCONNECTOR_H_
 #define HTTPCONNECTOR_H_
 
-namespace GoldDigger
+namespace Crawwwler
 {
 
 class CSocket;

@@ -5,8 +5,7 @@
 #ifndef PORT_H_
 #define PORT_H_
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CCPort {
 public:

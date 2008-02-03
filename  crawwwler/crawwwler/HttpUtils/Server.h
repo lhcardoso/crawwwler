@@ -7,8 +7,7 @@
 
 #include "Port.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CServer
 {

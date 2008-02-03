@@ -5,8 +5,7 @@
 #ifndef ROBOTSTXTFILE_H_
 #define ROBOTSTXTFILE_H_
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 	
 class CRobotsTxtFile
 {

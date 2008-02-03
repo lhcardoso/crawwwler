@@ -6,8 +6,7 @@
 
 #include <string>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 	enum tHeaderType {
 		HEADER_RESULT_OK = 1,

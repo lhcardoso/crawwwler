@@ -6,8 +6,7 @@
 #include "../ServerInfo/ServerInfo.h"
 #include "Socket.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 CHttpConnector::CHttpConnector() {
 }

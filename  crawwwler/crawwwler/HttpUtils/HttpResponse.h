@@ -5,8 +5,7 @@
 #include "HttpHeader.h"
 #include "Url.h"
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CHttpResponse
 {

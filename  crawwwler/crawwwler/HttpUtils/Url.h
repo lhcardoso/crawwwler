@@ -8,8 +8,7 @@
 
 #include <string>
 
-namespace GoldDigger
-{
+namespace Crawwwler {
 
 class CUrl
 {
