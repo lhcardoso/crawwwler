@@ -8,6 +8,7 @@
 
 namespace Crawwwler {
 
+	// Types of http requests
 	enum tRequestType {
 		REQUEST_GET = 1,
 		REQUEST_POST,
@@ -27,8 +28,6 @@ public:
 	// Set the resource that will be requested
 	void SetResource(std::string Resource);
 	
-	// Set the request type e.g GET, POST
-	
 	// Get the full ready-to-send raw request
 	std::string GetRawRequest();
 	
@@ -42,8 +41,6 @@ private:
 	std::string m_Resource;
 	
 	// ### todo: request data
-	
-	
 };
 
 }

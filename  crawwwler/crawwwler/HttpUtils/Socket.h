@@ -25,6 +25,7 @@ public:
 	bool SendRequest(std::string ServerName, int PortNumber, const CHttpRequest& Request, CHttpResponse **ppResponse);
 	
 private:
+	// Internal version called by SendRequest
 	bool Send(std::string ServerName, int PortNumber, CHttpRequest Request, std::string* pResult);
 
 };

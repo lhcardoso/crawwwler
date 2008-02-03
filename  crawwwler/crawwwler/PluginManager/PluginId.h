@@ -1,6 +1,7 @@
 // PluginId.h
 
 // Wrapper class for a pluginId
+// ### Not yet implemented
 
 #ifndef PLUGINID_H_
 #define PLUGINID_H_
