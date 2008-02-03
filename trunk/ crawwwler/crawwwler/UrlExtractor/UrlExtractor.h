@@ -29,6 +29,8 @@ private:
 	// Process the data for this server
 	bool ProcessServer(CServerInfo *pServerInfo);
 	
+	// Save the http response to a file on disk
+	// ### This is here for testing purposes only and will be removed
 	bool SaveFile(CHttpResponse *pResponse, CUrl Url);
 	
 	// Report back on findings

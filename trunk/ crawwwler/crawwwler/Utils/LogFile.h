@@ -16,9 +16,12 @@ public:
 	CLogFile(std::string Filename);
 	virtual ~CLogFile();
 	
+	// Write a string to the log file on disk
 	bool Write(std::string Message);
 	
 private:	
+	// Path to the log file
+	// ### Currently set internally in this class.  Need to be set in an external (xml?) file
 	std::string m_Filename;
 };
 

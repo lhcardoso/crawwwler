@@ -8,6 +8,7 @@
 
 namespace Crawwwler {
 
+	// Possible http header types
 	enum tHeaderType {
 		HEADER_RESULT_OK = 1,
 		HEADER_USER_AGENT,
@@ -49,6 +50,7 @@ public:
 	std::string ToString();
 	
 private:
+	// The type of this header
 	tHeaderType m_Type;
 	
 	std::string TypeAsString(tHeaderType Type);

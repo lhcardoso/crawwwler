@@ -1,3 +1,6 @@
+// HttpResponse.h
+// Represents an http response
+
 #ifndef HTTPRESPONSE_H_
 #define HTTPRESPONSE_H_
 
@@ -7,10 +10,13 @@
 
 namespace Crawwwler {
 
-class CHttpResponse
-{
+class CHttpResponse {
+	
 public:
 	CHttpResponse();
+	// Copy constructor
+	// ### Check the viability of this
+	CHttpResponse(CHttpResponse &Other);
 	virtual ~CHttpResponse();
 	
 	// Accessors
@@ -41,7 +47,6 @@ public:
 	bool SetResource(std::string Resource) { m_Resource = Resource; return true; }
 	std::string GetResource() { return m_Resource; };
 	
-	CHttpResponse(CHttpResponse &Other);
 private:
 	// The resource that this response represents
 	std::string m_Resource;

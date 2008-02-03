@@ -1,3 +1,6 @@
+// RemoteServer.h
+// Represents a remote server that will be crawled
+
 #ifndef REMOTESERVER_H_
 #define REMOTESERVER_H_
 
