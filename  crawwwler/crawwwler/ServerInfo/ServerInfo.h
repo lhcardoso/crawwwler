@@ -47,8 +47,7 @@ public:
 	
 	// Clear the last of resources to visit
 	bool ClearTargetResources() { m_Resources.clear(); return true; };
-	//### move back to private after testing
-	std::list<std::string> m_Resources;
+
 private:
 	void operator=(CServerInfo& Other);
 	// The remote server whose data this class represents
@@ -59,7 +58,9 @@ private:
 	// The associated list of resources to fetch from this server.
 	// This list can start off as empty which will assume we're starting a crawl i.e "/"
 	// The list is then populated during a crawl
+	std::list<std::string> m_Resources;	
 	
+	// The list of resources on this server that have already been visited
 	std::list<CUrl> m_VisitedResources;
 	
 	// The associated robots.txt file
