@@ -27,13 +27,12 @@ public:
 	// Remove another plugin from the list of subscribers
 	bool RemoveSubscriber(const CPluginId& Id);
 	
-	// As a subscriber, push data into this plugin, this will be overridden by inherited classes,
+	// As a subscriber, another plugin will push data into this plugin via this function, this will be overridden by inherited classes,
 	// The caller still owns the memory of the data and so it should be copied if needed
 	virtual bool PushData(std::list<void*> Data) = 0;
 	
 private:	
 	
-	// The id of this plugin
 protected:
 	// The other plugins that subscribe to the output of this plugin
 	std::list<CPlugin*> m_Subscribers;
