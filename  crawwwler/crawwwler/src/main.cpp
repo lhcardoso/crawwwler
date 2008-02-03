@@ -16,6 +16,8 @@
 using namespace Crawwwler;
 
 int main() {
+	// ### Most of this code is for testing only.  As the system matures, we'll work on formalising the running and control of the plugins
+	
 	
 	// Create the crawler object
 	CCrawlerPlugin Crawler;
