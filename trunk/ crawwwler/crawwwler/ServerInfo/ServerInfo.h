@@ -38,11 +38,17 @@ public:
 	// Returns false if no more resources are needed from this server
 	bool PopResource(std::string *pResource);
 	
+	// How many resources?
 	int GetResourceCount() { return m_Resources.size(); };
+	// Any resources at all?
 	bool HasResources() { return !m_Resources.empty(); };
+	// Whether there are known resources on this server that have not yet been crawled
 	void NewResources() { m_bResourcesExhausted = false; };
+	// Clear the list of responses
 	void EmptyResponses() { m_Responses.clear(); };
+	// Clear the list of resources
 	bool EmptyResources() { m_Resources.clear(); return true; };
+	// How many responses are currently held?
 	int GetResponsesCount() { return m_Responses.size(); }; 
 	
 	// Clear the last of resources to visit
