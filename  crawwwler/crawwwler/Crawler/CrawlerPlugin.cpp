@@ -17,12 +17,21 @@ CCrawlerPlugin::CCrawlerPlugin() : m_Connector() {
 }
 
 CCrawlerPlugin::~CCrawlerPlugin() {
+	// Delete each of the servers
+	while (!m_Servers.empty()) {
+		CServerInfo *pCurrent = m_Servers.front();
+		m_Servers.pop_front();
+		delete pCurrent;
+		pCurrent = NULL;
+	}
+	
 }
 
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
 bool CCrawlerPlugin::Init() {
+	// Not yet implemented
 	return false;
 }
 
@@ -32,30 +41,32 @@ bool CCrawlerPlugin::Start() {
 }
 
 bool CCrawlerPlugin::Stop() {
+	// Not yet implemented
 	return false;
 }
 
 bool CCrawlerPlugin::AddServer(CServerInfo *pServer) {
+	// Add the server to the front of the list
+	// ### Possibly will be the end, testing will tell
 	m_Servers.push_front(pServer);
 	return true;
 }
 
 std::list<CHttpResponse*> CCrawlerPlugin::CollectResponses() {
-	// ### This method will eventually need to be thread safe, but, erm, how?
+	// ### This method will eventually need to be thread safe, but, erm, how? In, fact this whole class will probably have to be thread safe.
 	
 	std::list<CHttpResponse*> Result;
 	
-	// Copy the list across
+	// Make a copy of the all reposnses for each of the servers
 	for (std::list<CServerInfo*>::iterator i = m_Servers.begin(); i != m_Servers.end(); i++) {
 		CServerInfo *pCurrent = *i;
 		std::list<CHttpResponse*> *pResponses = pCurrent->GetResponses();
 		
+		// Copy all the responses for this server
 		for (std::list<CHttpResponse*>::iterator i = pResponses->begin(); i != pResponses->end(); i++) {
 			CHttpResponse *pCurrentResponse = *i;
 			Result.push_back(pCurrentResponse);
 		}
-		
-		
 		// Don't delete pCurrent because it is now owned by the caller
 	}
 	
@@ -82,18 +93,17 @@ bool CCrawlerPlugin::PushData(std::list<void*> Data) {
 
 bool CCrawlerPlugin::StartCrawl() {
 	// If there are no servers to crawl, then there is nothing to do
-	// ### This is wrong since we will be able to add servers from time to time
+	// ### This is wrong since we will be able to add servers from time to time and this class should just wait
 	if (m_Servers.size() == 0) return false;
 	
-	// Go through the list of servers
-	int numServers = m_Servers.size();
+	// Crawl through all required resources on each server
 	for (std::list<CServerInfo*>::iterator i = m_Servers.begin(); i != m_Servers.end(); i++) {
 		CServerInfo *pCurrent = *i;
 		
 		// The CServerInfo class maintains ownership
 		CRemoteServer *pServer = pCurrent->GetServer();
 		
-		// Go through each resource
+		// Crawl all resources on this server
 		std::string Resource;
 		while (pCurrent->PopResource(&Resource)) {
 			// Build the request
@@ -112,15 +122,17 @@ bool CCrawlerPlugin::StartCrawl() {
 			
 			if (!m_Connector.SendRequest(*pServer, Request, &pResponse)) {
 				// ### Might have to register a failure reason and the fact that the request wasn't successful
+				delete pResponse;
+				pResponse = NULL;
 				continue;
 			}
-			// Remember the resource we are trying to get
+			
+			// Associate the response received with the resource requested
 			if (!pResponse->SetResource(Resource)) return false;
+			
 			// Store the response
 			if (!pCurrent->AddResponse(pResponse)) return false;
 			// pCurrent now has ownership
-			char pp[200];
-			sprintf(pp, Resource.c_str());
 			pResponse = NULL;
 		}
 		
@@ -141,38 +153,39 @@ bool CCrawlerPlugin::SetRequest(std::string Resource, CHttpRequest *pRequest, CR
 	// Check parameters
 	if (!pRequest) return false;
 	
-	// Request Type
+	// This is an Http GET request
 	pRequest->SetType(REQUEST_GET);
 	
 	// Headers
+	{
+		// The user agent
+		std::string UserAgent(GlobalData::CRAWLER_NAME);
+		tHeaderType HeaderType = HEADER_USER_AGENT;
+		CHttpHeader UserAgentHeader(HeaderType, UserAgent);
+		if (!pRequest->AddHeader(UserAgentHeader)) return false;
+		
+		// The host
+		HeaderType = HEADER_HOST;
+		CHttpHeader HostHeader(HeaderType, pServer->HostName());
+		if (!pRequest->AddHeader(HostHeader)) return false;
+		
+		HeaderType = HEADER_PROXY_CONNECTION;
+		CHttpHeader ProxyHeader(HeaderType, "Keep-Alive");
+		if (!pRequest->AddHeader(ProxyHeader)) return false;
+		
+		HeaderType = HEADER_PRAGMA;
+		CHttpHeader PragmaHeader(HeaderType, "no-cache");
+		if (!pRequest->AddHeader(PragmaHeader)) return false;
+		
+		HeaderType = HEADER_CONNECTION;
+		CHttpHeader ConnectionHeader(HeaderType, "close");
+		if (!pRequest->AddHeader(ConnectionHeader)) return false;
+	}
 	
-	// The user agent
-	std::string UserAgent(GlobalData::CRAWLER_NAME);
-	tHeaderType HeaderType = HEADER_USER_AGENT;
-	CHttpHeader UserAgentHeader(HeaderType, UserAgent);
-	if (!pRequest->AddHeader(UserAgentHeader)) return false;
-	
-	// The host
-	HeaderType = HEADER_HOST;
-	CHttpHeader HostHeader(HeaderType, pServer->HostName());
-	if (!pRequest->AddHeader(HostHeader)) return false;
-	
-	HeaderType = HEADER_PROXY_CONNECTION;
-	CHttpHeader ProxyHeader(HeaderType, "Keep-Alive");
-	if (!pRequest->AddHeader(ProxyHeader)) return false;
-	
-	HeaderType = HEADER_PRAGMA;
-	CHttpHeader PragmaHeader(HeaderType, "no-cache");
-	if (!pRequest->AddHeader(PragmaHeader)) return false;
-	
-	HeaderType = HEADER_CONNECTION;
-	CHttpHeader ConnectionHeader(HeaderType, "close");
-	if (!pRequest->AddHeader(ConnectionHeader)) return false;
-	
-	
+	// Set the target resource
 	pRequest->SetResource(Resource);
-	char d[1024];
-	sprintf(d, pRequest->GetRawRequest().c_str());
+	
+	// Success
 	return true;
 }
 
@@ -184,6 +197,7 @@ bool CCrawlerPlugin::Announce() {
 	// Convert the CServerInfo list to a void list
 	std::list<void*> Data;
 	for (std::list<CServerInfo*>::iterator i = m_Servers.begin(); i != m_Servers.end(); i++) {
+		// Is this a copy or a new pointer to the original??
 		Data.push_back(*i);
 	}
 	
