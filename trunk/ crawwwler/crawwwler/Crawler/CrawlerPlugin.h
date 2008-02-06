@@ -1,5 +1,4 @@
 // CrawlerPlugin.h
-// Base class for all plugins
 
 #ifndef CRAWLERPLUGIN_H_
 #define CRAWLERPLUGIN_H_
