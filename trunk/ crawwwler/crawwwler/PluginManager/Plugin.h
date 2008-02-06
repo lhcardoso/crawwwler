@@ -1,3 +1,6 @@
+// Plugin.h
+// Base class for all plugins
+
 #ifndef PLUGIN_H_
 #define PLUGIN_H_
 
