@@ -17,7 +17,13 @@ CServerInfo::~CServerInfo() {
 		delete m_pServer;
 		m_pServer = NULL;
 	}
-	// TODO delete the list of responses!!!!
+	
+	while (!m_Responses.empty()) {
+		CHttpResponse* pCurrent = m_Responses.front();
+		m_Responses.pop_front();
+		delete pCurrent;
+		pCurrent = NULL;
+	}
 }
 
 ///////////////////////////////////////////////////////////////
@@ -42,6 +48,7 @@ std::list<CHttpResponse*> *CServerInfo::GetResponses() {
 }
 
 bool CServerInfo::AddNewUrls(std::list<CUrl> Urls) {
+	// Add each item in the given list
 	for (std::list<CUrl>::iterator i = Urls.begin(); i != Urls.end(); i++) {
 		CUrl Current = *i;
 		
@@ -107,19 +114,20 @@ bool CServerInfo::PopResource(std::string *pResource) {
 // Private Methods
 
 bool CServerInfo::AlreadyVisited(CUrl Url) {
-	
+	// If the url is in the list of visited resources, then we've been there
 	for (std::list<CUrl>::iterator i = m_VisitedResources.begin(); i != m_VisitedResources.end(); i++) {
 		CUrl Current = *i;
 		if (Current.GetResource() == Url.GetResource()) {
+			// Already been there
 			return true;
 		}
 	}
-	
+	// Couldn't find it
 	return false;
 }
 
 bool CServerInfo::AlreadyTargeted(CUrl Url) {
-	// Check that this url has not already been visited
+	// If the url is in the list of urls to visit, then we already know about it
 	for (std::list<std::string>::iterator j = m_Resources.begin(); j != m_Resources.end(); j++) {
 		std::string Current = *j;
 		if (Url.GetResource() == Current) return true;
