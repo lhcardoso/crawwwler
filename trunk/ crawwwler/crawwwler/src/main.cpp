@@ -8,10 +8,6 @@
 #include "../ServerInfo/ServerInfo.h"
 #include "../HttpUtils/Url.h"
 #include "../Utils/LogFile.h"
-
-#include <fstream.h>
-
-//namespace GoldDigger {
 	
 using namespace Crawwwler;
 
@@ -30,7 +26,7 @@ int main() {
 	// Add a server
 	CRemoteServer *pServer = new CRemoteServer();
 	// ### Set this server to point to your local machine or test server in the form "servername.ext"
-	if (!pServer->SetServer("ServerNameGoesHere")) {
+	if (!pServer->SetServer("markgodfrey.co.uk")) {
 		std::cout << "Couldn't set server" << std::endl;
 	}
 	CServerInfo *pServerInfo = new CServerInfo();
@@ -67,27 +63,15 @@ int main() {
 	}
 	
 	
-	
-	
 	// Output the response
 	CHttpResponse *pResponse = Responses.front();
 	if (!pResponse) {
 		std::cout << "No Response" << std::endl;
 		return 0;
-	}
-	
-	
-	std::string *pString = pResponse->GetRawResult(); 
-	
-	ofstream f("/home/dave/test.txt");
-	f.clear();
-	f << pString->c_str();
-	f.close();
+	} 
 	
 	std::cout << "Extracted! yay!" << std::endl;
 	CLogFile Logger;
 	Logger.Write("Ok");
 	return 0;
 }
-
-//} // namespace GoldDigger

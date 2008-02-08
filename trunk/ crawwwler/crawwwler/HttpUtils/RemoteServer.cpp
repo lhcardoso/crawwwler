@@ -22,7 +22,7 @@ bool CRemoteServer::SetServer(std::string ServerUrl) {
 	return true;
 }
 
-std::string CRemoteServer::ToString() {
+const std::string CRemoteServer::ToString() const {
 	return m_Url.GetServer();
 }
 

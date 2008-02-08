@@ -13,7 +13,7 @@ public:
 	virtual ~CCPort();
 	
 	// Get the port number
-	int GetPortNum() { return m_PortNum; };
+	const int GetPortNum() const { return m_PortNum; };
 	
 private:
 	// The port number

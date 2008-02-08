@@ -2,7 +2,7 @@
 
 #include "../Utils/LogFile.h"
 // ### Temp include for testing
-#include <fstream.h>
+//#include <fstream.h>
 
 namespace Crawwwler {
 
@@ -50,11 +50,8 @@ static std::list<std::string> SplitString(const std::string& Data) {
 			
 		}
 		
-		std::string Line = n.substr(0, n.find(EndLine));
-		char RawRequest[1024];
-		sprintf(RawRequest, Line.c_str());
-		size_t r = Line.length();
 		// Store the line
+		std::string Line = n.substr(0, n.find(EndLine));
 		pResult.push_back(Line);
 		
 		// Cut the string
@@ -63,7 +60,7 @@ static std::list<std::string> SplitString(const std::string& Data) {
 		if (NewStartPos >= n.length()) break;
 		n = n.substr(NewStartPos);
 	}
-	int d = pResult.size();
+	
 	return pResult;
 }
 
@@ -96,7 +93,7 @@ CHttpResponse::~CHttpResponse() {
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-CHttpHeader *CHttpResponse::GetHeader(tHeaderType Type) {
+const CHttpHeader *CHttpResponse::GetHeader(tHeaderType Type) {
 	for (std::list<CHttpHeader>::iterator i = m_Headers.begin(); i != m_Headers.end(); i++) {
 		CHttpHeader Current = *i;
 		if (Current.GetType() == Type) {
@@ -109,9 +106,6 @@ CHttpHeader *CHttpResponse::GetHeader(tHeaderType Type) {
 	return NULL;
 }
 
-int CHttpResponse::GetResultCode() {
-	return m_ResultCode;
-}
 
 bool CHttpResponse::IsError() {
 	// ### This will obviously have to be extended
@@ -179,16 +173,6 @@ bool CHttpResponse::Parse() {
 		}
 	}
 	
-	// ### Temporary: write out the extracted urls to file
-	ofstream f("/home/dave/url.txt");
-	f.clear();
-	for (std::list<CUrl>::iterator it = m_Urls.begin(); it != m_Urls.end(); it++) {
-		CUrl Current = *it;
-		f << Current.ToString();
-		f << "\n";
-	}
-	
-	f.close();
 	return true;
 }
 

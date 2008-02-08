@@ -21,7 +21,7 @@ public:
 	// Get a pointer to this server
 	CRemoteServer *GetServer();
 	// Get the server name represented by this object
-	std::string GetServerName() { return m_pServer->HostName(); };
+	const std::string GetServerName() { return m_pServer->HostName(); };
 	
 	// Add a response to the list of known responses, this class takes ownership of the memory
 	bool AddResponse(CHttpResponse *pResponse);
@@ -29,19 +29,19 @@ public:
 	std::list<CHttpResponse*> *GetResponses();
 	
 	// Add more urls that need to be crawled, this will only add new urls local to this server
-	bool AddNewUrls(std::list<CUrl> Urls);
+	bool AddNewUrls(std::list<CUrl>& Urls);
 	// Add an already visited resource
-	bool AddVisitedResource(CUrl Resource);
-	int GetVisitedResourceCount() { return m_VisitedResources.size(); };
+	bool AddVisitedResource(const CUrl& Resource);
+	const int GetVisitedResourceCount() const { return m_VisitedResources.size(); };
 	
 	// Get the next resource from the list and remove it from the list
 	// Returns false if no more resources are needed from this server
 	bool PopResource(std::string *pResource);
 	
 	// How many resources?
-	int GetResourceCount() { return m_Resources.size(); };
+	const int GetResourceCount() const { return m_Resources.size(); };
 	// Any resources at all?
-	bool HasResources() { return !m_Resources.empty(); };
+	const bool HasResources() const { return !m_Resources.empty(); };
 	// Whether there are known resources on this server that have not yet been crawled
 	void NewResources() { m_bResourcesExhausted = false; };
 	// Clear the list of responses
@@ -49,7 +49,7 @@ public:
 	// Clear the list of resources
 	bool EmptyResources() { m_Resources.clear(); return true; };
 	// How many responses are currently held?
-	int GetResponsesCount() { return m_Responses.size(); }; 
+	const int GetResponsesCount() const { return m_Responses.size(); }; 
 	
 	// Clear the last of resources to visit
 	bool ClearTargetResources() { m_Resources.clear(); return true; };

@@ -84,7 +84,7 @@ bool CUrlExtractor::ProcessServer(CServerInfo *pServerInfo) {
 		ofstream p("/home/dave/be.txt");
 		p << pCurrent->GetRawResult()->c_str();
 		p.close();
-		CHttpHeader *pLocationHeader = pCurrent->GetHeader(HEADER_CONTENT_LOCATION);
+		const CHttpHeader *pLocationHeader = pCurrent->GetHeader(HEADER_CONTENT_LOCATION);
 		if (!pLocationHeader) {
 			// We might not have received a content location header so just use the resource we set
 			char ab[100];
@@ -136,22 +136,6 @@ bool CUrlExtractor::Announce() {
 	
 	return true;
 }
-bool CUrlExtractor::SaveFile(CHttpResponse *pResponse, CUrl Url) {
-	std::string s("/home/dave/data/");
-	std::string temp(Url.GetResource());
-	char e[200];
-	sprintf(e, temp.c_str());
-	while (temp.find("/") != std::string::npos) {
-		temp = temp.substr(temp.find("/") + 1);
-	}
-	s.append(temp);
-	char d[1024];
-	sprintf(d, s.c_str());
-	ofstream f(s.c_str());
-	f << pResponse->GetRawResult()->c_str();
-	f.close();
-	return true;
-}
 
 bool CUrlExtractor::ProcessVisitedResource(CHttpHeader LocationHeader, CServerInfo* pServerInfo) {
 	
@@ -172,22 +156,25 @@ bool CUrlExtractor::ProcessNewResources(std::list<CHttpResponse*> *pResponses, C
 		
 		// Save the page to disk
 		// ### Temporary!! This should be done elsewhere
-		CHttpHeader *pLocationHeader = pCurrent->GetHeader(HEADER_CONTENT_LOCATION);
-		if (!pLocationHeader) {
-			// We might not have received a content location header so just use the resource we set
-			char ab[100];
-			sprintf(ab, pCurrent->GetResource().c_str());
-			pLocationHeader = new CHttpHeader(HEADER_CONTENT_LOCATION, pCurrent->GetResource());
-			if (!pLocationHeader) return false;
-		}
-		std::string Location = pLocationHeader->GetValue();
-		delete pLocationHeader;
-		pLocationHeader = NULL;
-		CUrl Url;
-		if (!Url.Parse(Location)) return false;
-		
-		if (!SaveFile(pCurrent, Url)) return false;
+		{
+			const CHttpHeader *pLocationHeader = pCurrent->GetHeader(HEADER_CONTENT_LOCATION);
+			if (!pLocationHeader) {
+				// We might not have received a content location header so just use the resource we set
+				char ab[100];
+				sprintf(ab, pCurrent->GetResource().c_str());
+				pLocationHeader = new CHttpHeader(HEADER_CONTENT_LOCATION, pCurrent->GetResource());
+				if (!pLocationHeader) return false;
+			}
+			// The url is needed to build a filename
+			std::string Location = pLocationHeader->GetValue();
+			delete pLocationHeader;
+			pLocationHeader = NULL;
+			CUrl Url;
+			if (!Url.Parse(Location)) return false;
 			
+			if (!SaveFile(pCurrent, Url)) return false;
+		}	
+		
 		// Go through the list of discovered resources. Add the local ones to the list of pages to retrieve
 		// and the remote ones, well, the remote ones
 		std::string ServerName = pServerInfo->GetServerName();
@@ -198,5 +185,22 @@ bool CUrlExtractor::ProcessNewResources(std::list<CHttpResponse*> *pResponses, C
 	return true;
 }
 
+bool CUrlExtractor::SaveFile(CHttpResponse *pResponse, CUrl Url) {
+	// ### Hard coded path, change yours
+	std::string s("/home/dave/data/");
+	
+	// The filename is the name of the resource
+	std::string temp(Url.GetResource());
+	while (temp.find("/") != std::string::npos) {
+		temp = temp.substr(temp.find("/") + 1);
+	}
+	s.append(temp);
+	
+	// Save to disk
+	ofstream f(s.c_str());
+	f << pResponse->GetRawResult()->c_str();
+	f.close();
+	return true;
+}
 
 }
