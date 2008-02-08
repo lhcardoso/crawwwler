@@ -19,9 +19,9 @@ public:
 	virtual ~CHttpConnector();
 	
 	// Send an http request, true on success and the parsed response is then returned
-	bool SendRequest(	class CRemoteServer Server,
+	bool SendRequest(	const class CRemoteServer& Server,
 						const class CHttpRequest& Request,
-						CHttpResponse **ppResponse); 
+						CHttpResponse **ppResponse) const; 
 	
 private:
 	//CSocket *m_pSocket;

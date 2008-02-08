@@ -25,7 +25,7 @@ CSocket::~CSocket()
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CSocket::SendRequest(std::string ServerName, int PortNumber, const CHttpRequest& Request, CHttpResponse **ppResponse) {
+bool CSocket::SendRequest(const std::string ServerName, const int PortNumber, const CHttpRequest& Request, CHttpResponse **ppResponse) {
 	// Parameter checks
 	if (!*ppResponse) *ppResponse = new CHttpResponse();
 	
@@ -42,7 +42,7 @@ bool CSocket::SendRequest(std::string ServerName, int PortNumber, const CHttpReq
 	*ppResponse = pResponse;
 	return bResult;
 }
-bool CSocket::Send(std::string ServerName, int PortNumber, CHttpRequest Request, std::string* pResult) {
+bool CSocket::Send(const std::string ServerName, const int PortNumber, CHttpRequest Request, std::string* pResult) {
 	if (!pResult) return false;
 	
 	// This functionality is taken from http://www.linuxhowtos.org/C_C++/socket.htm

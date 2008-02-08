@@ -22,11 +22,11 @@ public:
 	virtual ~CSocket();
 	
 	// Send a request through the socket, returns true on success and returns a CHttpResponse object through the parameter
-	bool SendRequest(std::string ServerName, int PortNumber, const CHttpRequest& Request, CHttpResponse **ppResponse);
+	bool SendRequest(const std::string ServerName, const int PortNumber, const CHttpRequest& Request, CHttpResponse **ppResponse);
 	
 private:
 	// Internal version called by SendRequest
-	bool Send(std::string ServerName, int PortNumber, CHttpRequest Request, std::string* pResult);
+	bool Send(const std::string ServerName, const int PortNumber, CHttpRequest Request, std::string* pResult);
 
 };
 

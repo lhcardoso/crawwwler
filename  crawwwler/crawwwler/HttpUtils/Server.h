@@ -15,7 +15,7 @@ public:
 	CServer();
 	virtual ~CServer();
 	
-	CCPort GetPort() { return m_Port; };
+	const CCPort GetPort() const { return m_Port; };
 	
 private:
 	// The port associated with this server

@@ -12,7 +12,6 @@ CHttpHeader::CHttpHeader() {
 CHttpHeader::CHttpHeader(tHeaderType Type, std::string Value) :
 m_Value(Value) {
 	m_Type = Type;
-	m_Field = TypeAsString(Type);
 }
 
 CHttpHeader::~CHttpHeader() {
@@ -22,7 +21,7 @@ CHttpHeader::~CHttpHeader() {
 // Public Methods
 
 
-std::string CHttpHeader::TypeAsString(tHeaderType Type) {
+const std::string CHttpHeader::TypeAsString(tHeaderType Type) const {
 	switch (Type) {
 		case HEADER_RESULT_OK:
 			return "HTTP/1.1 200 OK";
@@ -63,7 +62,7 @@ std::string CHttpHeader::TypeAsString(tHeaderType Type) {
 	}
 }
 
-tHeaderType CHttpHeader::StringAsType(std::string Value) {
+const tHeaderType CHttpHeader::StringAsType(std::string Value) const {
 	if (Value == "HTTP/1.1 200 OK") return HEADER_RESULT_OK;
 	if (Value == "User-Agent") return HEADER_USER_AGENT;
 	if (Value == "Accept") return HEADER_ACCEPT_TYPE;
@@ -85,31 +84,21 @@ tHeaderType CHttpHeader::StringAsType(std::string Value) {
 }
 
 bool CHttpHeader::Parse(std::string Value) {
+	// Headers are in the form field:value e.g.
+	// Content-Type: text/html
 	
+	// If there is no colon ":" then this is definitely not a header
 	size_t Pos = Value.find(":");
-	
-	// If there is no colon ":" then this is definitely not a headers
 	if (Pos == std::string::npos) return false;
 	
-	// TODO Try to match the part before the colon to a known header type
-	
-	 
+	// Parse the header type which is the text before the ':'
 	std::string Field = Value.substr(0, Pos);
 	if (Field.length() == 0) return false;
-	
-	// TODO set the header type
 	m_Type = StringAsType(Field);
 	
-	// Set the field
-	m_Field = Field;
+	// Parse the value, removing leading spaces
 	Value = Value.substr(Pos + 1);
-	while (Value.find(" ") == 0) {
-		Value = Value.substr(1);
-	}
-	
-	char d[1024];
-	sprintf(d, Value.c_str());
-	// Set the value
+	while (Value.find(" ") == 0) Value = Value.substr(1);
 	m_Value = Value;
 	
 	return true;
@@ -117,18 +106,18 @@ bool CHttpHeader::Parse(std::string Value) {
 	
 }
 
-std::string CHttpHeader::ToString() {
+const std::string CHttpHeader::ToString() const {
 	// Format is Field:Value
 	
 	std::string Response("");
 	
-	// Append the type
-	Response.append(m_Field);
-	//Response.append(TypeAsString(m_Type));
+	// Append the type (field)
+	Response.append(TypeAsString(m_Type));
 	
 	// Must have a header type
 	if (Response.length() == 0) return "";
 	
+	// Append the value
 	Response.append(":");
 	Response.append(m_Value);
 	

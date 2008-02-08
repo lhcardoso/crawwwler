@@ -19,7 +19,7 @@ public:
 	virtual ~CRemoteServer();
 	
 	// The fully qualified server name
-	std::string ToString();
+	const std::string ToString() const;
 	// The host name only of the url
 	std::string HostName();
 	

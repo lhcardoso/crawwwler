@@ -21,7 +21,7 @@ public:
 	
 	// Accessors
 	// Get the result code, returns -1 if the response has not been parsed
-	int GetResultCode();
+	const int GetResultCode() const { return m_ResultCode; };
 	bool IsError();
 	
 	// Set the raw response
@@ -31,21 +31,21 @@ public:
 	bool Parse();
 	
 	// Get the headers
-	std::list<CHttpHeader> GetHeaders() { return m_Headers; };
+	const std::list<CHttpHeader> GetHeaders() const { return m_Headers; };
 	// Get the header that matches this type, returns NULL if not found. The caller is responsible for the memory
-	CHttpHeader *GetHeader(tHeaderType Type);
+	const CHttpHeader *GetHeader(tHeaderType Type);
 	
 	// Get a reference to the raw result, this class still owns the memory
-	std::string *GetRawResult() { return m_pResult; };
+	const std::string *GetRawResult() const { return m_pResult; };
 	
 	// Get a copy of all the urls that have been extracted through parsing
-	std::list<CUrl> GetUrls() { return m_Urls; };
+	const std::list<CUrl> GetUrls() const { return m_Urls; };
 	// Get a copy of the resources that are local to the given server
 	std::list<CUrl> GetLocalUrls(std::string ServerName);
 	
 	// Set the resource that this response will represent
 	bool SetResource(std::string Resource) { m_Resource = Resource; return true; }
-	std::string GetResource() { return m_Resource; };
+	const std::string GetResource() const { return m_Resource; };
 	
 private:
 	// The resource that this response represents

@@ -47,7 +47,7 @@ std::list<CHttpResponse*> *CServerInfo::GetResponses() {
 	return &m_Responses;
 }
 
-bool CServerInfo::AddNewUrls(std::list<CUrl> Urls) {
+bool CServerInfo::AddNewUrls(std::list<CUrl>& Urls) {
 	// Add each item in the given list
 	for (std::list<CUrl>::iterator i = Urls.begin(); i != Urls.end(); i++) {
 		CUrl Current = *i;
@@ -62,7 +62,7 @@ bool CServerInfo::AddNewUrls(std::list<CUrl> Urls) {
 	return true;
 }
 
-bool CServerInfo::AddVisitedResource(CUrl Resource) {
+bool CServerInfo::AddVisitedResource(const CUrl& Resource) {
 	
 	// Check that its not in the list of known urls
 	if (AlreadyVisited(Resource)) {

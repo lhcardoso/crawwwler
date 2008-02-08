@@ -21,7 +21,7 @@ public:
 	// Get the resource represented by this url e.g index.html
 	std::string GetResource() { return m_Resource; };
 	// Get the server name represented by this url
-	std::string GetServer() { return m_ServerName; };
+	const std::string GetServer() const { return m_ServerName; };
 	
 	// Determine if this url represents a local resource
 	bool IsLocal() { return m_ServerName.empty(); };

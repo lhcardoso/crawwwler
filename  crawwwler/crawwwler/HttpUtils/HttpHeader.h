@@ -43,21 +43,22 @@ public:
 	bool Parse(std::string Value);
 	
 	// Get the type
-	tHeaderType GetType() { return m_Type; };
+	const tHeaderType GetType() const { return m_Type; };
 	// Get the value
-	std::string GetValue() {return m_Value; };
+	const std::string GetValue() const {return m_Value; };
 	
-	std::string ToString();
+	const std::string ToString() const;
 	
 private:
-	// The type of this header
+	// Headers are in the form field:value
+	// eg is Content-Type: text/html
+	
+	// The type (field) of this header
 	tHeaderType m_Type;
 	
-	std::string TypeAsString(tHeaderType Type);
-	tHeaderType StringAsType(std::string Value);
+	const std::string TypeAsString(tHeaderType Type) const;
+	const tHeaderType StringAsType(std::string Value) const;
 	
-	// The raw field
-	std::string m_Field;
 	// The value
 	std::string m_Value;
 };
