@@ -26,7 +26,7 @@ int main() {
 	// Add a server
 	CRemoteServer *pServer = new CRemoteServer();
 	// ### Set this server to point to your local machine or test server in the form "servername.ext"
-	if (!pServer->SetServer("putyourservernameherelocalmachineplease")) {
+	if (!pServer->SetServer("morag")) {
 		std::cout << "Couldn't set server" << std::endl;
 	}
 	CServerInfo *pServerInfo = new CServerInfo();
