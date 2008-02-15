@@ -11,8 +11,24 @@
 
 using namespace Crawwwler;
 
-int main() {
+int main(int argc, char *argv[]) {
 	// ### Most of this code is for testing only.  As the system matures, we'll work on formalising the running and control of the plugins
+
+	// Parse the command line arguments
+	int ArgCount = 0;
+	while (argv[ArgCount]) {
+		std::cout << argv[ArgCount] << std::endl;
+		ArgCount++;
+	}
+
+	if (ArgCount == 1) {
+
+		std::cout << "Enter a server name" << std::endl;
+		return 0;
+	}
+
+	// Get the target server name
+	std::string TargetServerName = argv[1];
 
 
 	// Create the crawler object
@@ -25,8 +41,8 @@ int main() {
 
 	// Add a server
 	CRemoteServer *pServer = new CRemoteServer();
-	// ### Set this server to point to your local machine or test server in the form "servername.ext"
-	if (!pServer->SetServer("morag")) {
+	// Argument is from the command line
+	if (!pServer->SetServer(TargetServerName)) {
 		std::cout << "Couldn't set server" << std::endl;
 	}
 	CServerInfo *pServerInfo = new CServerInfo();
