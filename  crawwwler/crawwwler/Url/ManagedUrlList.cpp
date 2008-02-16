@@ -1,25 +1,26 @@
-#include "RobotsTxtFile.h"
-#include "../HttpUtils/HttpResponse.h"
+#include "ManagedUrlList.h"
 
 namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors
 
-CRobotsTxtFile::CRobotsTxtFile() {
+CManagedUrlList::CManagedUrlList() {
 }
 
-CRobotsTxtFile::~CRobotsTxtFile() {
+CManagedUrlList::~CManagedUrlList() {
 }
 
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CRobotsTxtFile::Parse(const CHttpResponse& RawFile) {
-	return false;
+void CManagedUrlList::AddUnique(const class CUrl& Url) {
+
 }
 
+void CManagedUrlList::AddUnique(const CManagedUrlList& Rhs) {
+
+}
 ///////////////////////////////////////////////////////////////
 // Private Methods
-
 }

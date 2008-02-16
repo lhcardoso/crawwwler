@@ -1,22 +1,25 @@
-#include "RobotsTxtFile.h"
+#include "HttpClient.h"
+
 #include "../HttpUtils/HttpResponse.h"
+#include "../HttpUtils/Url.h"
+#include "../HttpUtils/Port.h"
 
 namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors
 
-CRobotsTxtFile::CRobotsTxtFile() {
+CHttpClient::CHttpClient() {
 }
 
-CRobotsTxtFile::~CRobotsTxtFile() {
+CHttpClient::~CHttpClient() {
 }
 
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CRobotsTxtFile::Parse(const CHttpResponse& RawFile) {
-	return false;
+bool CHttpClient::GetResource(const CUrl& Url, const CCPort& Port, CHttpResponse *pResponse) const {
+	return NULL;
 }
 
 ///////////////////////////////////////////////////////////////
