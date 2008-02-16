@@ -19,6 +19,10 @@ public:
 private:
 	CServerCrawler(const CServerCrawler& Other);
 	CServerCrawler& operator=(const CServerCrawler& Rhs);
+
+	// Save the http response to a file on disk
+	// ### This is here for testing purposes only and will be removed
+	bool SaveFile(const class CHttpResponse *pResponse);
 };
 
 }
