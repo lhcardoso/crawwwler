@@ -19,7 +19,7 @@ public:
 	// Try to parse a url from strin
 	bool Parse(const std::string& Value);
 	// Get the resource represented by this url e.g index.html
-	std::string GetResource() { return m_Resource; };
+	const std::string GetResource() const { return m_Resource; };
 	// Get the server name represented by this url
 	const std::string GetServer() const { return m_ServerName; };
 
