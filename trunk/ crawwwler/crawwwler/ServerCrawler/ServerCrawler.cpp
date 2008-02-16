@@ -7,6 +7,7 @@
 #include "../RobotsTxt/RobotsTxtFile.h"
 #include "../Url/ManagedUrlList.h"
 #include "../UrlExtractor/UrlExtractor.h"
+#include <fstream.h>
 
 namespace Crawwwler
 {
@@ -56,7 +57,7 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 	// Recursively crawl the site
 	while (!Urls.IsEmpty()) {
 		// Crawl the current target
-		const CUrl *pCurrent = Urls.GetNext();
+		const CUrl *pCurrent = Urls.Pop();
 
 		if (!pCurrent) {
 			// This is an error since Urls.IsEmpty() should have returned false
@@ -85,6 +86,10 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 			continue;
 		}
 
+		// Save the page to disk
+		// ### Temporary!! This should be done elsewhere
+		if (!SaveFile(&Response)) return false;
+
 		// Add uniquely to the managed list of urls
 		Urls.AddUnique(ExtractedUrls);
 	}
@@ -97,6 +102,36 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 ///////////////////////////////////////////////////////////////
 // Private Methods
 
+bool CServerCrawler::SaveFile(const CHttpResponse *pResponse) {
+	// Get the location header to use as part of the filename
+	const CHttpHeader *pLocationHeader = pResponse->GetHeader(HEADER_CONTENT_LOCATION);
+	// If we did not receive a content location header just use the resource we set
+	if (!pLocationHeader) {
+		pLocationHeader = new CHttpHeader(HEADER_CONTENT_LOCATION, pResponse->GetResource());
+		if (!pLocationHeader) return false;
+	}
+	// The url is needed to build a filename
+	std::string Location = pLocationHeader->GetValue();
+	delete pLocationHeader;
+	pLocationHeader = NULL;
+	CUrl Url;
+	if (!Url.Parse(Location)) return false;
 
+	// ### Hard coded path, change yours
+	std::string s("/home/dave/data/");
+
+	// The filename is the name of the resource
+	std::string temp(Url.GetResource());
+	while (temp.find("/") != std::string::npos) {
+		temp = temp.substr(temp.find("/") + 1);
+	}
+	s.append(temp);
+
+	// Save to disk
+	ofstream f(s.c_str());
+	f << pResponse->GetRawResult()->c_str();
+	f.close();
+	return true;
+}
 
 }
