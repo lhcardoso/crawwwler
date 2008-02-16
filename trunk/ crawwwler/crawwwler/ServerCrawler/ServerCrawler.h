@@ -14,7 +14,7 @@ public:
 	CServerCrawler();
 	virtual ~CServerCrawler();
 
-	bool Crawl(const std::string& ServerName);
+	bool Crawl(const std::string& DomainName);
 
 private:
 	CServerCrawler(const CServerCrawler& Other);

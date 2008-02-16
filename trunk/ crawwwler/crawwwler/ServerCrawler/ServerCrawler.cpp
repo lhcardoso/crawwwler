@@ -9,8 +9,24 @@
 #include "../UrlExtractor/UrlExtractor.h"
 #include <fstream.h>
 
-namespace Crawwwler
-{
+namespace Crawwwler {
+
+///////////////////////////////////////////////////////////////
+// Static Methods
+
+// Contextual, whether the user matches the domain name or represents a local link with no domain
+static bool MatchesDomain(const CUrl& Url, const std::string& DomainName) {
+	// Check if this represents a local url
+	if (Url.IsLocal()) {
+		return true;
+	}
+	// Alternatively, the domain name could match
+	if (Url.MatchesServer(DomainName)) {
+		return true;
+	}
+	// Points to another domain
+	return false;
+}
 
 ///////////////////////////////////////////////////////////////
 // Constructors
@@ -24,7 +40,7 @@ CServerCrawler::~CServerCrawler() {
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CServerCrawler::Crawl(const std::string& ServerName) {
+bool CServerCrawler::Crawl(const std::string& DomainName) {
 	// The http client we'll use to send the request
 	CHttpClient HttpClient;
 
@@ -32,7 +48,7 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 	CHttpResponse RawRobotsFile;
 
 	CUrl Url;
-	std::string ThisServer(ServerName);
+	std::string ThisServer(DomainName);
 	ThisServer = ThisServer.append("/robots.txt");
 	if (!Url.Parse(ThisServer)) return false;
 	CCPort Port(80);
@@ -49,8 +65,8 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 	CManagedUrlList Urls;
 	{
 		CUrl IndexUrl;
-		std::string ServerNameCopy(ServerName);
-		if (!IndexUrl.Parse(ServerNameCopy.append("/"))) return false;
+		std::string DomainNameCopy(DomainName);
+		if (!IndexUrl.Parse(DomainNameCopy.append("/"))) return false;
 		Urls.AddUnique(IndexUrl);
 	}
 
@@ -82,8 +98,15 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 		CManagedUrlList ExtractedUrls;
 		CUrlExtractor UrlExtractor;
 		if (!UrlExtractor.ExtractFrom(Response, &ExtractedUrls)) {
-			// Nothing more to do for this one
+			// This is actually an error
 			continue;
+		}
+
+		// Add all new urls that are local to this domain to the list
+		for (std::list<CUrl>::iterator i = ExtractedUrls.begin(); i != ExtractedUrls.end(); i++) {
+			if (!MatchesDomain(*i, DomainName)) continue;
+			// It is local, add it to the list
+			Urls.AddUnique(*i);
 		}
 
 		// Save the page to disk
