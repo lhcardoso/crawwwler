@@ -56,7 +56,8 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 	// Recursively crawl the site
 	while (!Urls.IsEmpty()) {
 		// Crawl the current target
-		CUrl *pCurrent = Urls.GetNext();
+		const CUrl *pCurrent = Urls.GetNext();
+
 		if (!pCurrent) {
 			// This is an error since Urls.IsEmpty() should have returned false
 			return false;
