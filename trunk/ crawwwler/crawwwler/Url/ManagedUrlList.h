@@ -23,7 +23,7 @@ public:
 	bool IsEmpty() { return m_CurrentItems.empty(); };
 
 	// Get the next url from the list, the caller is now responsible for the memory
-	const CUrl* GetNext() { return NULL; };
+	CUrl* Pop();
 
 	// Expose begin and end so we can access them when uniquely adding a list
 	iterator begin() { return this->begin(); };

@@ -32,6 +32,24 @@ void CManagedUrlList::AddUnique(CManagedUrlList& Rhs) {
 		AddUnique(Current);
 	}
 }
+
+CUrl* CManagedUrlList::Pop() {
+	if (IsEmpty()) return NULL;
+
+	// Get the front item
+	// Default copy constructor should be okay, since no pointers in Url class
+	CUrl *pUrl = new CUrl(this->front());
+
+	// Remember that we've now had this item
+	m_PastItems.push_back(this->front());
+
+	// Pop from the pile
+	this->pop_front();
+
+	// Caller is reponsible for the memory
+	return pUrl;
+}
+
 ///////////////////////////////////////////////////////////////
 // Private Methods
 
