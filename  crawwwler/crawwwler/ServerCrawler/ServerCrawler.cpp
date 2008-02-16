@@ -81,7 +81,8 @@ bool CServerCrawler::Crawl(const std::string& ServerName) {
 		CManagedUrlList ExtractedUrls;
 		CUrlExtractor UrlExtractor;
 		if (!UrlExtractor.ExtractFrom(Response, &ExtractedUrls)) {
-
+			// Nothing more to do for this one
+			continue;
 		}
 
 		// Add uniquely to the managed list of urls
