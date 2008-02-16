@@ -5,24 +5,40 @@
 #define MANAGEDURLLIST_H_
 
 #include "../HttpUtils/Url.h"
+#include <list.h>
 
 namespace Crawwwler {
 
-class CManagedUrlList
-{
+// Private inheritance so nobody can mess with the list
+class CManagedUrlList : private std::list<CUrl> {
 public:
 	CManagedUrlList();
 	virtual ~CManagedUrlList();
 
 	// Add a completely unique url to the list that has never been on the list before at all
-	void AddUnique(const class CUrl& Url);
-	void AddUnique(const CManagedUrlList& Rhs);
+	void AddUnique(const CUrl& Url);
+	void AddUnique(CManagedUrlList& Rhs);
 
 	// Whether this list is empty
-	bool IsEmpty() { return false; };
+	bool IsEmpty() { return m_CurrentItems.empty(); };
 
 	// Get the next url from the list, the caller is now responsible for the memory
-	CUrl* GetNext() { return NULL; };
+	const CUrl* GetNext() { return NULL; };
+
+	// Expose begin and end so we can access them when uniquely adding a list
+	iterator begin() { return this->begin(); };
+	iterator end() { return this->end(); };
+
+private:
+	// Whether this url has previously existed on this list, but not currently
+	bool PreviouslyListed(CUrl Url);
+	// Whether this url currently exists on this list
+	bool CurrentlyListed(CUrl Url);
+
+	// List of items that were once on the current list
+	std::list<CUrl> m_PastItems;
+	// The current list of urls
+	std::list<CUrl> m_CurrentItems;
 };
 
 }
