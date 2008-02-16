@@ -16,7 +16,13 @@ CRobotsTxtFile::~CRobotsTxtFile() {
 // Public Methods
 
 bool CRobotsTxtFile::Parse(const CHttpResponse& RawFile) {
-	return false;
+	// ### Not yet implemented
+	return true;
+}
+
+bool CRobotsTxtFile::Allows(const class CUrl& Url) {
+	// ### Not yet implemented
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////
