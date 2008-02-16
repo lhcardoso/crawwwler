@@ -24,9 +24,9 @@ public:
 	const std::string GetServer() const { return m_ServerName; };
 
 	// Determine if this url represents a local resource
-	bool IsLocal() { return m_ServerName.empty(); };
+	bool IsLocal() const { return m_ServerName.empty(); };
 	// Determine if this url matches the given servername
-	bool MatchesServer(std::string ServerName) { return m_ServerName == ServerName; };
+	bool MatchesServer(std::string ServerName) const { return m_ServerName == ServerName; };
 
 	std::string ToString();
 
