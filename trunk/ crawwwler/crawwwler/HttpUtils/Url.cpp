@@ -144,25 +144,25 @@ bool CUrl::Parse(const std::string& Value) {
     // username and password are gone
 
 	// At this stage we are left with the following as a possiblity
-	// servername.co.uk[0*("/"Directory)"/"] filename.ext
+	// servername[.co.uk][0*("/"Directory)"/"] filename.ext
 
-
-
-	// [servername.co.uk][0*("/"Directory)"/"] filename.ext
-
-
-
-	// If we find a "/" then we have either a servername or a directory
+	// If we find a "/" then we have either a servername or a directory before the slash
 	Pos = Val.find("/");
 	if (Pos != std::string::npos) {
 		if (Pos != 0) {
-			// If we find a "." first then this first part is a servername
+			// If we find a "." first then this first part is a fully qualified servername
 			size_t PosOfDot = Val.find(".");
 			if (PosOfDot < Pos) {
 				if (!ParseServerName(&Val)) return false;
 				// All thats left now is the resource
 				m_Resource = Val;
 				return true;
+			} else {
+				// ### This is either a local servername or a directory before the slash
+				// ### Will have to add functionality like this later when crawling servers within domains
+				// since we can't tell the difference between
+				// servername/file.ext and
+				// directory/file.ext
 			}
 		}
 	}
