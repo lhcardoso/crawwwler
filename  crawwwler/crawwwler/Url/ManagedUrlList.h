@@ -9,8 +9,7 @@
 
 namespace Crawwwler {
 
-// Private inheritance so nobody can mess with the list
-class CManagedUrlList : private std::list<CUrl> {
+class CManagedUrlList : public std::list<CUrl> {
 public:
 	CManagedUrlList();
 	virtual ~CManagedUrlList();
@@ -20,14 +19,10 @@ public:
 	void AddUnique(CManagedUrlList& Rhs);
 
 	// Whether this list is empty
-	bool IsEmpty() { return m_CurrentItems.empty(); };
+	bool IsEmpty() { return empty(); };
 
 	// Get the next url from the list, the caller is now responsible for the memory
 	CUrl* Pop();
-
-	// Expose begin and end so we can access them when uniquely adding a list
-	iterator begin() { return this->begin(); };
-	iterator end() { return this->end(); };
 
 private:
 	// Whether this url has previously existed on this list, but not currently
@@ -37,8 +32,6 @@ private:
 
 	// List of items that were once on the current list
 	std::list<CUrl> m_PastItems;
-	// The current list of urls
-	std::list<CUrl> m_CurrentItems;
 };
 
 }

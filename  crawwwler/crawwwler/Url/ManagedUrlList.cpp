@@ -20,7 +20,7 @@ void CManagedUrlList::AddUnique(const CUrl& Url) {
 	if (PreviouslyListed(Url)) return;
 
 	// It's unique, add to the current list
-	this->push_back(Url);
+	push_back(Url);
 }
 
 void CManagedUrlList::AddUnique(CManagedUrlList& Rhs) {
