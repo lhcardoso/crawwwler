@@ -16,7 +16,7 @@ public:
 	CUrl();
 	virtual ~CUrl();
 
-	// Try to parse a url from strin
+	// Try to parse a url from string
 	bool Parse(const std::string& Value);
 	// Get the resource represented by this url e.g index.html
 	const std::string GetResource() const { return m_Resource; };
