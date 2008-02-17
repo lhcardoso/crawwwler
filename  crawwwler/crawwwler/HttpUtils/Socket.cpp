@@ -38,6 +38,8 @@ bool CSocket::SendRequest(	const std::string ServerName,
 
 	// Set the return value
 	if (!pResponse->SetResponse(Result)) return false;
+	// We might not have a content-location header pointing to the resource name, so set it manually here
+	if (!pResponse->SetResource(Request.GetResource()));
 
 	return bResult;
 
