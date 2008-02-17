@@ -1,13 +1,12 @@
 // CrawlerPlugin.h
+// ### Currently not implemented
 
 #ifndef CRAWLERPLUGIN_H_
 #define CRAWLERPLUGIN_H_
 
 #include "../PluginManager/Plugin.h"
-#include "../ServerInfo/ServerInfo.h"
 
-namespace Crawwwler
-{
+namespace Crawwwler {
 
 class CRemoteServer;
 class CHttpResponse;
@@ -24,28 +23,8 @@ public:
 	//Overridden
 	bool Stop();
 
-	// Add a server to the list of sites that this crawler must crawl, this class takes ownership of the memory
-	bool AddServer(CServerInfo *pServer);
-	// ### Possibly use this method
-	//bool AddKeyword();
-
-	// Collect all the responses from this crawl so far, the caller now owns the list and items as it is cleared from this object
-	std::list<CHttpResponse*> CollectResponses();
-	// Get the number of servers
-	int GetNumServers() { return m_Servers.size(); };
-
-	// Overridden
-	virtual bool PushData(std::list<void*> Data);
 private:
-	// The http connector that this crawler will use to connect to the web
-	//CHttpConnector m_Connector;
-	// The list of servers this crawler must crawl.  This class is responsible for the memory
-	std::list<CServerInfo*> m_Servers;
 
-	bool StartCrawl();
-
-	// Report back on findings
-	bool Announce();
 };
 
 }
