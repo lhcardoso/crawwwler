@@ -1,12 +1,7 @@
 // main.cpp
 
 #include <iostream>
-#include "../Crawler/CrawlerPlugin.h"
-#include "../HttpUtils/HttpResponse.h"
-#include "../HttpUtils/RemoteServer.h"
-#include "../UrlExtractor/UrlExtractor.h"
-#include "../ServerInfo/ServerInfo.h"
-#include "../HttpUtils/Url.h"
+
 #include "../Utils/LogFile.h"
 #include "../DomainCrawler/DomainCrawler.h"
 
@@ -31,7 +26,6 @@ int main(int argc, char *argv[]) {
 	// Get the target server name
 	std::string TargetDomainName = argv[1];
 
-	
 	// Crawl the domain
 	CDomainCrawler DomainCrawler;
 	if (!DomainCrawler.Crawl(TargetDomainName)) {
