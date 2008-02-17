@@ -1,12 +1,13 @@
 #include "DomainCrawler.h"
 
-#include "../HttpConnector/HttpClient.h"
-#include "../HttpUtils/HttpResponse.h"
-#include "../HttpUtils/Url.h"
-#include "../HttpUtils/Port.h"
+#include "../Http/HttpConnector/HttpClient.h"
+#include "../Http/HttpUtils/HttpResponse.h"
+#include "../NetworkAPI/Port.h"
 #include "../RobotsTxt/RobotsTxtFile.h"
+#include "../Url/Url.h"
 #include "../Url/ManagedUrlList.h"
 #include "../UrlExtractor/UrlExtractor.h"
+// ### Temp include while testing
 #include <fstream.h>
 
 namespace Crawwwler {

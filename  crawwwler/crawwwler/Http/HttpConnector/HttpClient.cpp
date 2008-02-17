@@ -1,11 +1,11 @@
 #include "HttpClient.h"
 
 #include "../HttpUtils/HttpResponse.h"
-#include "../HttpUtils/Url.h"
-#include "../HttpUtils/Port.h"
-#include "../HttpUtils/Socket.h"
+#include "../../Url/Url.h"
+#include "../../NetworkAPI/Port.h"
+#include "../../NetworkAPI/Socket.h"
 #include "../HttpUtils/HttpRequest.h"
-#include "../GlobalData/GlobalData.h"
+#include "../../Utils/GlobalData/GlobalData.h"
 
 namespace Crawwwler {
 

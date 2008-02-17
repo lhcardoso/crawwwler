@@ -7,27 +7,27 @@
 #include "Server.h"
 #include <string>
 #include <list>
-#include "Url.h"
+#include "../Url/Url.h"
 
 namespace Crawwwler {
-	
+
 class CRobotsTxtFile;
 
 class CRemoteServer: public CServer {
 public:
 	CRemoteServer();
 	virtual ~CRemoteServer();
-	
+
 	// The fully qualified server name
 	const std::string ToString() const;
 	// The host name only of the url
 	std::string HostName();
-	
+
 	// Set the server by name, fails if the string is completely incorrect
 	bool SetServer(std::string ServerUrl);
-	
-	
-	
+
+
+
 private:
 	// The server url
 	CUrl m_Url;

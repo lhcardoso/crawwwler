@@ -4,7 +4,7 @@
 #ifndef MANAGEDURLLIST_H_
 #define MANAGEDURLLIST_H_
 
-#include "../HttpUtils/Url.h"
+#include "../Url/Url.h"
 #include <list.h>
 
 namespace Crawwwler {
