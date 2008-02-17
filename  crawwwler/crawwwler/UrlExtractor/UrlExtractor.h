@@ -4,9 +4,6 @@
 #ifndef URLEXTRACTOR_H_
 #define URLEXTRACTOR_H_
 
-#include "../PluginManager/Plugin.h"
-#include "../ServerInfo/ServerInfo.h"
-
 namespace Crawwwler {
 
 class CUrlExtractor {
@@ -15,7 +12,7 @@ public:
 	virtual ~CUrlExtractor();
 
 	// Extract all the urls from this http response and populate pList with them
-	bool ExtractFrom(CHttpResponse& File, class CManagedUrlList* pList);
+	bool ExtractFrom(class CHttpResponse& File, class CManagedUrlList* pList);
 
 private:
 
