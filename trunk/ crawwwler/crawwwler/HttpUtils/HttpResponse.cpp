@@ -121,6 +121,13 @@ bool CHttpResponse::SetResponse(std::string Value) {
 	return true;
 }
 
+bool CHttpResponse::SetResource(std::string Resource) {
+	// Only set if empty
+	if (!m_Resource.empty()) return true;
+	m_Resource = Resource;
+	return true;
+}
+
 bool CHttpResponse::Parse() {
 
 // Break up the file into separate lines
