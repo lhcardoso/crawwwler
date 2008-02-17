@@ -1,8 +1,7 @@
 #include "Socket.h"
 
-#include "HttpRequest.h"
-#include "HttpResponse.h"
-#include <iostream>
+#include "../Http/HttpUtils/HttpRequest.h"
+#include "../Http/HttpUtils/HttpResponse.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>

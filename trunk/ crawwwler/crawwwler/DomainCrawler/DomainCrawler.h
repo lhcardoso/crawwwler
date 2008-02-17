@@ -4,7 +4,7 @@
 #ifndef DOMAINCRAWLER_H_
 #define DOMAINCRAWLER_H_
 
-#include "../HttpUtils/RemoteServer.h"
+#include "../Server/RemoteServer.h"
 
 namespace Crawwwler
 {

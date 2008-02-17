@@ -1,6 +1,6 @@
 #include "UrlExtractor.h"
-#include "../HttpUtils/HttpResponse.h"
-#include "../HttpUtils/Url.h"
+#include "../Http/HttpUtils/HttpResponse.h"
+#include "../Url/Url.h"
 #include "../Url/ManagedUrlList.h"
 
 

@@ -4,7 +4,7 @@
 #include <string>
 #include <list>
 #include "HttpHeader.h"
-#include "RemoteServer.h"
+#include "../../Server/RemoteServer.h"
 
 namespace Crawwwler {
 

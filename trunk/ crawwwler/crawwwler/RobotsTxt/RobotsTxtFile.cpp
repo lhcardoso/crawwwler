@@ -1,5 +1,5 @@
 #include "RobotsTxtFile.h"
-#include "../HttpUtils/HttpResponse.h"
+#include "../Http/HttpUtils/HttpResponse.h"
 
 namespace Crawwwler {
 

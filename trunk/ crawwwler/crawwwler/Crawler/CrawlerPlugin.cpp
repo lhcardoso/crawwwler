@@ -1,11 +1,11 @@
 #include "CrawlerPlugin.h"
 
 #include <iostream>
-#include "../HttpUtils/RemoteServer.h"
-#include "../HttpUtils/HttpResponse.h"
-#include "../HttpUtils/HttpRequest.h"
-#include "../GlobalData/GlobalData.h"
-#include "../HttpUtils/HttpHeader.h"
+#include "../Server/RemoteServer.h"
+#include "../Http/HttpUtils/HttpResponse.h"
+#include "../Http/HttpUtils/HttpRequest.h"
+#include "../Utils/GlobalData/GlobalData.h"
+#include "../Http/HttpUtils/HttpHeader.h"
 
 namespace Crawwwler
 {
