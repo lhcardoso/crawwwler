@@ -14,13 +14,9 @@ namespace Crawwwler {
 ///////////////////////////////////////////////////////////////
 // Static Methods
 
-// Contextual, whether the user matches the domain name or represents a local link with no domain
+// whether the url matches the domain name
 static bool MatchesDomain(const CUrl& Url, const std::string& DomainName) {
-	// Check if this represents a local url
-	if (Url.IsLocal()) {
-		return true;
-	}
-	// Alternatively, the domain name could match
+	// Does the domain name match
 	if (Url.MatchesServer(DomainName)) {
 		return true;
 	}
@@ -41,6 +37,9 @@ CDomainCrawler::~CDomainCrawler() {
 // Public Methods
 
 bool CDomainCrawler::Crawl(const std::string& DomainName) {
+	// Get a copy of the argument so we can change it
+	std::string DomainNameCopy(DomainName);
+
 	// The http client we'll use to send the request
 	CHttpClient HttpClient;
 
@@ -65,7 +64,6 @@ bool CDomainCrawler::Crawl(const std::string& DomainName) {
 	CManagedUrlList Urls;
 	{
 		CUrl IndexUrl;
-		std::string DomainNameCopy(DomainName);
 		if (!IndexUrl.Parse(DomainNameCopy.append("/"))) return false;
 		Urls.AddUnique(IndexUrl);
 	}
@@ -102,19 +100,25 @@ bool CDomainCrawler::Crawl(const std::string& DomainName) {
 			continue;
 		}
 
-		// Add all new urls that are local to this domain to the list
+		// Add all new urls that belong to this domain to the list
 		for (std::list<CUrl>::iterator i = ExtractedUrls.begin(); i != ExtractedUrls.end(); i++) {
-			if (!MatchesDomain(*i, DomainName)) continue;
-			// It is local, add it to the list
-			Urls.AddUnique(*i);
+			CUrl Current(*i);
+			// If its a relative link, inject the servername
+			if (Current.IsLocal()) {
+				std::string QualifiedUrl(DomainNameCopy);
+				DomainNameCopy.append(Current.ToString());
+				// Reparse
+				if (!Current.Parse(QualifiedUrl)) continue;
+			}
+
+			if (!MatchesDomain(Current, DomainName)) continue;
+			// Add to the list
+			Urls.AddUnique(Current);
 		}
 
 		// Save the page to disk
 		// ### Temporary!! This should be done elsewhere
 		if (!SaveFile(&Response)) return false;
-
-		// Add uniquely to the managed list of urls
-		Urls.AddUnique(ExtractedUrls);
 	}
 
 	// Successful crawl
