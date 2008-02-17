@@ -43,8 +43,9 @@ public:
 	// Get a copy of the resources that are local to the given server
 	std::list<CUrl> GetLocalUrls(std::string ServerName);
 
-	// Set the resource that this response will represent
-	bool SetResource(std::string Resource) { m_Resource = Resource; return true; }
+	// Set the resource that this response will represent, only set if currently empty
+	bool SetResource(std::string Resource);
+
 	const std::string GetResource() const { return m_Resource; };
 
 private:
