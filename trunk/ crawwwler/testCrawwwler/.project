@@ -4,6 +4,7 @@
 	<comment></comment>
 	<projects>
 		<project>crawwwler</project>
+		<project>libcrawwwler</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -29,6 +30,10 @@
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableFullBuild</key>
 					<value>true</value>
+				</dictionary>
+				<dictionary>
+					<key>?children?</key>
+					<value>?name?=outputEntries\|?children?=?name?=entry\\\\\\\\\\\\\\\|\\\\\\\|?name?=entry\\\\\\\\\\\\\\\|\\\\\\\|\||</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableCleanBuild</key>
