@@ -12,10 +12,10 @@ namespace Crawwwler {
 class CRemoteServer;
 class CHttpResponse;
 
-class CCrawlerPlugin : public CPlugin {
+class CCrawlerManager : public CPlugin {
 public:
-	CCrawlerPlugin();
-	virtual ~CCrawlerPlugin();
+	CCrawlerManager();
+	virtual ~CCrawlerManager();
 
 	//Overridden
 	bool Init();

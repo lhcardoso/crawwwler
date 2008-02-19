@@ -1,32 +1,31 @@
-#include "CrawlerPlugin.h"
+#include "CrawlerManager.h"
 
 #include "../Http/HttpUtils/HttpResponse.h"
 #include "../Http/HttpUtils/HttpRequest.h"
 #include "../DomainCrawler/DomainCrawler.h"
 
-namespace Crawwwler
-{
+namespace Crawwwler {
 
 ///////////////////////////////////////////////////////////////
 // Constructors
 
-CCrawlerPlugin::CCrawlerPlugin() {
+CCrawlerManager::CCrawlerManager() {
 	m_bStopRequest = false;
 }
 
-CCrawlerPlugin::~CCrawlerPlugin() {
+CCrawlerManager::~CCrawlerManager() {
 }
 
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CCrawlerPlugin::Init() {
+bool CCrawlerManager::Init() {
 	m_bStopRequest = false;
 	// Not yet implemented
 	return false;
 }
 
-bool CCrawlerPlugin::Start() {
+bool CCrawlerManager::Start() {
 
 	// ### Start the new thread here
 	Crawl();
@@ -35,7 +34,7 @@ bool CCrawlerPlugin::Start() {
 	return false;
 }
 
-bool CCrawlerPlugin::Stop() {
+bool CCrawlerManager::Stop() {
 	// Not yet implemented
 	return false;
 }
@@ -44,7 +43,7 @@ bool CCrawlerPlugin::Stop() {
 ///////////////////////////////////////////////////////////////
 // Private Methods
 
-void CCrawlerPlugin::Crawl() {
+void CCrawlerManager::Crawl() {
 
 	// Run until we've had a stop request
 	while (!m_bStopRequest) {
@@ -61,7 +60,7 @@ void CCrawlerPlugin::Crawl() {
 	}
 }
 
-bool CCrawlerPlugin::RunCycle() {
+bool CCrawlerManager::RunCycle() {
 
 	for (std::list<CUrl>::iterator i = m_CurrentUrls.begin(); i != m_CurrentUrls.end(); i++) {
 		CUrl Current(*i);
@@ -77,7 +76,7 @@ bool CCrawlerPlugin::RunCycle() {
 	return true;
 }
 
-bool CCrawlerPlugin::CrawlDomain(const CUrl& Url) {
+bool CCrawlerManager::CrawlDomain(const CUrl& Url) {
 	CDomainCrawler DomainCrawler(Url.GetServer());
 	if (!DomainCrawler.FetchRobotsFile()) {
 		// Something went wrong, ignore this one
@@ -86,12 +85,12 @@ bool CCrawlerPlugin::CrawlDomain(const CUrl& Url) {
 	return true;
 }
 
-bool CCrawlerPlugin::CrawlResource(const CUrl& Url) {
+bool CCrawlerManager::CrawlResource(const CUrl& Url) {
 	// Not yet implemented
 	return true;
 }
 
-bool CCrawlerPlugin::PrepareNextCycle() {
+bool CCrawlerManager::PrepareNextCycle() {
 
 	// Clear the list of current urls
 	m_CurrentUrls.clear();
