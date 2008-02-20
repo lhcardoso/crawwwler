@@ -72,7 +72,7 @@ m_ResultCode(400) {
 	m_pResult = NULL;
 }
 
-CHttpResponse::CHttpResponse(CHttpResponse &Other) :
+CHttpResponse::CHttpResponse(const CHttpResponse &Other) :
 m_ResultCode(Other.GetResultCode()) {
 	m_pResult = new std::string(*Other.GetRawResult());
 	// Copy the list
