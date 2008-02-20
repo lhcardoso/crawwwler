@@ -2,9 +2,12 @@
 
 #include "../Http/HttpUtils/HttpResponse.h"
 #include "../Http/HttpUtils/HttpRequest.h"
-#include "../DomainCrawler/DomainCrawler.h"
 
 namespace Crawwwler {
+
+///////////////////////////////////////////////////////////////
+// Static Functions
+
 
 ///////////////////////////////////////////////////////////////
 // Constructors
@@ -62,47 +65,70 @@ void CCrawlerManager::Crawl() {
 
 bool CCrawlerManager::RunCycle() {
 
-	for (std::list<CUrl>::iterator i = m_CurrentUrls.begin(); i != m_CurrentUrls.end(); i++) {
-		CUrl Current(*i);
-		// Is this a resource-specific url or a '/' which means we should crawl the whole domain
-		if (Current.GetResource() == "/") {
-			if (!CrawlDomain(Current)) continue;
-		} else {
-			// We've been asked to fetch a specific resource
-			if (!CrawlResource(Current)) continue;
+
+	// Crawl the domains and collect all the responses we can
+	CHttpResponseList Responses;
+	for (map<std::string, CDomainCrawler*>::iterator i = m_CurrentDomains.begin(); i != m_CurrentDomains.end(); i++) {
+		CDomainCrawler *pCurrent = i->second;
+
+		// Crawl the current urls for this domain
+		if (!pCurrent->CrawlCurrentUrls()) {
+			// ### Do something if we couldn't crawl
+		}
+
+		// Pop all the responses from this crawler onto the list we're collecting
+		{
+			Responses.AddResponses(pCurrent->GetResponses());
+			pCurrent->DeleteResponses();
 		}
 	}
 
-	return true;
-}
-
-bool CCrawlerManager::CrawlDomain(const CUrl& Url) {
-	CDomainCrawler DomainCrawler(Url.GetServer());
-	if (!DomainCrawler.FetchRobotsFile()) {
-		// Something went wrong, ignore this one
-		return false;
-	}
-	return true;
-}
-
-bool CCrawlerManager::CrawlResource(const CUrl& Url) {
-	// Not yet implemented
+	// TODO Announce findings and pass them on to the subscribing url extractor if we can
 	return true;
 }
 
 bool CCrawlerManager::PrepareNextCycle() {
+	// If we currently have domains to crawl, then we're done
+	if (!m_CurrentDomains.empty()) return true;
 
-	// Clear the list of current urls
-	m_CurrentUrls.clear();
+	// If there are no new urls then we're also done
+	if (m_NewUrls.empty()) return true;
 
-	for (std::list<CUrl>::iterator i = m_TargetUrls.begin(); i != m_TargetUrls.end(); i++) {
-		m_CurrentUrls.push_back(*i);
+	// Sort all the urls into matching domains
+	if (!PrepareDomains()) return false;
+
+	// Done!
+	return true;
+}
+
+bool CCrawlerManager::PrepareDomains() {
+	// The domain list should be empty
+	m_CurrentDomains.clear();
+
+	// No good if there are no new urls
+	if (m_NewUrls.empty()) return false;
+
+	// Sort the url into domains
+	for (std::list<CUrl>::iterator i = m_NewUrls.begin(); i != m_NewUrls.end(); i++) {
+		CUrl CurrentUrl(*i);
+		std::string ServerName = CurrentUrl.GetServer();
+
+		// Check to see if we've already got a crawler for this domain
+		map<std::string, CDomainCrawler*>::iterator Pos = m_CurrentDomains.find(ServerName);
+		if (Pos != m_CurrentDomains.end()) {
+			// We've already got a crawler for this domain just push in the url
+			(Pos->second)->AddUrl(CurrentUrl);
+			continue;
+		}
+		// We don't have a crawler for this domain yet, so add one
+		CDomainCrawler *pDomainCrawler = new CDomainCrawler(ServerName);
+		pDomainCrawler->AddUrl(CurrentUrl);
+		// Insert into the map
+		m_CurrentDomains.insert(make_pair(ServerName, pDomainCrawler));
+		// Don't delete since the map now owns the memory
 	}
 
-	// Clear the list
-	m_TargetUrls.clear();
-
-	return true;
+	return false;
 }
 
 } // namespace GoldDigger
