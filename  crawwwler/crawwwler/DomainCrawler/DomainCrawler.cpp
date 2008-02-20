@@ -1,11 +1,8 @@
 #include "DomainCrawler.h"
 
-#include "../Http/HttpConnector/HttpClient.h"
 #include "../Http/HttpUtils/HttpResponse.h"
 #include "../NetworkAPI/Port.h"
-#include "../RobotsTxt/RobotsTxtFile.h"
 #include "../Url/Url.h"
-#include "../Url/ManagedUrlList.h"
 #include "../UrlExtractor/UrlExtractor.h"
 // ### Temp include while testing
 #include <fstream.h>
@@ -15,20 +12,10 @@ namespace Crawwwler {
 ///////////////////////////////////////////////////////////////
 // Static Methods
 
-// whether the url matches the domain name
-static bool MatchesDomain(const CUrl& Url, const std::string& DomainName) {
-	// Does the domain name match
-	if (Url.MatchesServer(DomainName)) {
-		return true;
-	}
-	// Points to another domain
-	return false;
-}
-
 ///////////////////////////////////////////////////////////////
 // Constructors
 
-CDomainCrawler::CDomainCrawler() {
+CDomainCrawler::CDomainCrawler(const std::string& DomainName) : m_DomainName(DomainName) {
 }
 
 CDomainCrawler::~CDomainCrawler() {
@@ -37,42 +24,35 @@ CDomainCrawler::~CDomainCrawler() {
 ///////////////////////////////////////////////////////////////
 // Public Methods
 
-bool CDomainCrawler::Crawl(const std::string& DomainName) {
-	// Get a copy of the argument so we can change it
-	std::string DomainNameCopy(DomainName);
-
-	// The http client we'll use to send the request
-	CHttpClient HttpClient;
-
-	// Get the robots.txt file
-	CHttpResponse RawRobotsFile;
-
+bool CDomainCrawler::FetchRobotsFile() {
+	// Build the url for a robots.txt file
 	CUrl Url;
-	std::string ThisServer(DomainName);
-	ThisServer = ThisServer.append("/robots.txt");
-	if (!Url.Parse(ThisServer)) return false;
-	CCPort Port(80);
-	if (!HttpClient.GetResource(Url, Port, &RawRobotsFile)) {
+	std::string RobotsUrl(m_DomainName);
+	RobotsUrl.append("/robots.txt");
+	if (!Url.Parse(RobotsUrl)) return false;
+
+	// Fetch the robots file
+	CHttpResponse RawRobotsFile;
+	if (!m_HttpClient.GetResource(Url, CCPort(80), &RawRobotsFile)) {
 		// This means a complete failure to fetch a robots file!!!
 		return false;
 	}
 
 	// Process the robots file
-	CRobotsTxtFile RobotsFile;
-	if (!RobotsFile.Parse(RawRobotsFile)) return false;
+	if (!m_RobotsFile.Parse(RawRobotsFile)) return false;
 
-	// Start crawling from the index page
-	CManagedUrlList Urls;
-	{
-		CUrl IndexUrl;
-		if (!IndexUrl.Parse(DomainNameCopy.append("/"))) return false;
-		Urls.AddUnique(IndexUrl);
-	}
+	return true;
+}
+
+bool CDomainCrawler::CrawlCurrentUrls() {
+
+	// Get a copy of the domain name so we can append various url string to it
+	std::string DomainNameCopy(m_DomainName);
 
 	// Recursively crawl the site
-	while (!Urls.IsEmpty()) {
+	while (!m_CurrentUrls.IsEmpty()) {
 		// Crawl the current target
-		const CUrl *pCurrent = Urls.Pop();
+		const CUrl *pCurrent = m_CurrentUrls.Pop();
 
 		if (!pCurrent) {
 			// This is an error since Urls.IsEmpty() should have returned false
@@ -80,7 +60,7 @@ bool CDomainCrawler::Crawl(const std::string& DomainName) {
 		}
 
 		// Make sure the robots file allows this
-		if (!RobotsFile.Allows(*pCurrent)) {
+		if (!m_RobotsFile.Allows(*pCurrent)) {
 			delete pCurrent;
 			pCurrent = NULL;
 			continue;
@@ -88,44 +68,47 @@ bool CDomainCrawler::Crawl(const std::string& DomainName) {
 
 		// Crawl the current target
 		CHttpResponse Response;
-		if (!HttpClient.GetResource(*pCurrent, CCPort(80), &Response)) {
+		if (!m_HttpClient.GetResource(*pCurrent, CCPort(80), &Response)) {
 			// Skip this one
+			delete pCurrent;
+			pCurrent = NULL;
 			continue;
 		}
+
+		// Add the response to the out return value
+		m_Responses.AddResponse(Response);
 
 		// Extract the urls from this response
-		CManagedUrlList ExtractedUrls;
-		CUrlExtractor UrlExtractor;
-		if (!UrlExtractor.ExtractFrom(Response, &ExtractedUrls)) {
-			// This is actually an error
-			continue;
-		}
-
-		// Add all new urls that belong to this domain to the list
-		for (std::list<CUrl>::iterator i = ExtractedUrls.begin(); i != ExtractedUrls.end(); i++) {
-			CUrl Current(*i);
-			// If its a relative link, inject the servername
-			if (Current.IsLocal()) {
-				std::string QualifiedUrl(DomainNameCopy);
-				DomainNameCopy.append(Current.ToString());
-				// Reparse
-				if (!Current.Parse(QualifiedUrl)) continue;
-			}
-
-			if (!MatchesDomain(Current, DomainName)) continue;
-			// Add to the list
-			Urls.AddUnique(Current);
-		}
+		//CManagedUrlList ExtractedUrls;
+		//CUrlExtractor UrlExtractor;
+		//if (!UrlExtractor.ExtractFrom(Response, &ExtractedUrls)) {
+		//	// This is actually an error
+		//	delete pCurrent;
+		//	pCurrent = NULL;
+		//	continue;
+		//}
 
 		// Save the page to disk
 		// ### Temporary!! This should be done elsewhere
-		if (!SaveFile(&Response)) return false;
+		if (!SaveFile(&Response)) {
+			delete pCurrent;
+			pCurrent = NULL;
+			return false;
+		}
+
+		delete pCurrent;
+		pCurrent = NULL;
 	}
 
 	// Successful crawl
+
 	return true;
 }
 
+bool CDomainCrawler::AddUrl(const CUrl& Url) {
+	m_CurrentUrls.AddUnique(Url);
+	return true;
+}
 
 ///////////////////////////////////////////////////////////////
 // Private Methods
