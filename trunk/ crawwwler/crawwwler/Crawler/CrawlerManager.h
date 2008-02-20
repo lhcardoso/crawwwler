@@ -1,5 +1,4 @@
 // CrawlerPlugin.h
-// ### Currently not implemented
 
 #ifndef CRAWLERPLUGIN_H_
 #define CRAWLERPLUGIN_H_
