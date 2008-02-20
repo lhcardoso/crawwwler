@@ -3,7 +3,7 @@
 // Author      :
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Test project for crawwwler library, currently won't run while design changes are being made
 //============================================================================
 
 #include <iostream>
@@ -32,11 +32,11 @@ int main(int argc, char *argv[]) {
 		std::string TargetDomainName = argv[1];
 
 		// Crawl the domain
-		Crawwwler::CDomainCrawler DomainCrawler;
-		if (!DomainCrawler.Crawl(TargetDomainName)) {
-			std::cout << "Unsuccessful crawl. Boooo!" << std::endl;
-			return 0;
-		}
+		Crawwwler::CDomainCrawler DomainCrawler(TargetDomainName);
+		//if (!DomainCrawler.CrawlUrls()) {
+		//	std::cout << "Unsuccessful crawl. Boooo!" << std::endl;
+		//	return 0;
+		//}
 		// Success
 		std::cout << "Successful Crawl! yay!" << std::endl;
 		Crawwwler::CLogFile Logger;
