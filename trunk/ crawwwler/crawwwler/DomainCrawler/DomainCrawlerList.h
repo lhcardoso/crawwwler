@@ -1,11 +1,11 @@
 #ifndef DOMAINCRAWLERLIST_H_
 #define DOMAINCRAWLERLIST_H_
 
-namespace Crawwwler
-{
+#include "DomainCrawler.h"
 
-class CDomainCrawlerList
-{
+namespace Crawwwler {
+
+class CDomainCrawlerList : public std::list<CDomainCrawler> {
 public:
 	CDomainCrawlerList();
 	virtual ~CDomainCrawlerList();
