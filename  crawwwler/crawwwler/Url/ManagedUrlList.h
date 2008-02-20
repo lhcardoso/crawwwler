@@ -21,7 +21,7 @@ public:
 	// Whether this list is empty
 	bool IsEmpty() { return empty(); };
 
-	// Get the next url from the list, the caller is now responsible for the memory
+	// Get the next url from the list, the caller is now responsible for the memory, returns NULL if the list is empty
 	CUrl* Pop();
 
 private:
