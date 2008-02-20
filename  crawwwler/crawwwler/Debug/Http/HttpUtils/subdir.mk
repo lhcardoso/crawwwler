@@ -6,17 +6,20 @@
 CPP_SRCS += \
 ../Http/HttpUtils/HttpHeader.cpp \
 ../Http/HttpUtils/HttpRequest.cpp \
-../Http/HttpUtils/HttpResponse.cpp 
+../Http/HttpUtils/HttpResponse.cpp \
+../Http/HttpUtils/HttpResponseList.cpp 
 
 OBJS += \
 ./Http/HttpUtils/HttpHeader.o \
 ./Http/HttpUtils/HttpRequest.o \
-./Http/HttpUtils/HttpResponse.o 
+./Http/HttpUtils/HttpResponse.o \
+./Http/HttpUtils/HttpResponseList.o 
 
 CPP_DEPS += \
 ./Http/HttpUtils/HttpHeader.d \
 ./Http/HttpUtils/HttpRequest.d \
-./Http/HttpUtils/HttpResponse.d 
+./Http/HttpUtils/HttpResponse.d \
+./Http/HttpUtils/HttpResponseList.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

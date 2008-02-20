@@ -4,13 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../Crawler/CrawlerPlugin.cpp 
+../Crawler/CrawlerManager.cpp 
 
 OBJS += \
-./Crawler/CrawlerPlugin.o 
+./Crawler/CrawlerManager.o 
 
 CPP_DEPS += \
-./Crawler/CrawlerPlugin.d 
+./Crawler/CrawlerManager.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
