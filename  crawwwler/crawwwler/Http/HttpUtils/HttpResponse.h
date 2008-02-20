@@ -16,7 +16,7 @@ public:
 	CHttpResponse();
 	// Copy constructor
 	// ### Check the viability of this
-	CHttpResponse(CHttpResponse &Other);
+	CHttpResponse(const CHttpResponse &Other);
 	virtual ~CHttpResponse();
 
 	// Accessors
