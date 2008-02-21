@@ -83,7 +83,7 @@ bool CCrawlerManager::RunCycle() {
 		}
 	}
 
-	// TODO Announce findings and pass them on to the subscribing url extractor if we can
+	// TODO Announce findings (Responses) and pass them on to the subscribing url extractor if we can
 	return true;
 }
 
